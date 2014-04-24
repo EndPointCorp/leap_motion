@@ -2,7 +2,7 @@
 __author__ = 'flier'
 import rospy
 import leap_interface
-from leap_motion.msg import Finger
+#from leap_motion.msg import Finger
 from leap_motion.msg import Frame
 
 # Obviously, this method publishes the data defined in leapros.msg to /leapmotion/data
