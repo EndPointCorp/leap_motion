@@ -7,6 +7,11 @@ add_message_files(
     FILES
     leap.msg
     leapros.msg
+    Frame.msg
+    InteractionBox.msg
+    Pointable.msg
+    Hand.msg
+    Vector.msg
 )
 
 generate_messages(

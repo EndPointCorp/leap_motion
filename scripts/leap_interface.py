@@ -30,7 +30,8 @@ class LeapInterface(Leap.Listener):
     def on_init(self, controller):
         # These variables as probably not thread safe
         # TODO: Make thread safe ;)
-        self.hand           = [0,0,0]
+        self.frame          = None
+        self.hand           = None
         self.hand_direction = [0,0,0]
         self.hand_normal    = [0,0,0]
         self.hand_palm_pos  = [0,0,0]
@@ -58,11 +59,14 @@ class LeapInterface(Leap.Listener):
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
         frame = controller.frame()
+        self.frame = frame
 
+        '''
         print "Frame id: %d, timestamp: %d, hands: %d, fingers: %d, tools: %d, gestures: %d" % (
-              frame.id, frame.timestamp, len(frame.hands), len(frame.fingers), len(frame.tools), len(frame.gestures()))
-
-        if not frame.hands.empty:
+            frame.id, frame.timestamp, len(frame.hands), len(frame.fingers), len(frame.tools), len(frame.gestures()))
+        '''
+        empty = len(frame.hands) == 0
+        if not empty:
             # Get the first hand
             self.hand = frame.hands[0]
 
@@ -140,7 +144,7 @@ class LeapInterface(Leap.Listener):
                             gesture.id, self.state_string(gesture.state),
                             screentap.position, screentap.direction )
 
-        if not (frame.hands.empty and frame.gestures().empty):
+        if not (empty and frame.gestures().empty):
             print ""
 
     def state_string(self, state):
@@ -175,6 +179,12 @@ class LeapInterface(Leap.Listener):
     def get_hand_roll(self):
         return self.hand_roll
 
+    def get_hand(self):
+        return self.hand
+
+    def get_frame(self):
+        return self.frame
+
 
 class Runner(threading.Thread):
 
@@ -184,7 +194,7 @@ class Runner(threading.Thread):
         self.listener = LeapInterface()
         self.controller = Leap.Controller()
         self.controller.add_listener(self.listener)
-    
+
     def __del__(self):
         self.controller.remove_listener(self.listener)
 
@@ -205,6 +215,12 @@ class Runner(threading.Thread):
 
     def get_hand_yaw(self):
         return self.listener.get_hand_yaw()
+
+    def get_hand(self):
+        return self.listener.get_hand()
+
+    def get_frame(self):
+        return self.listener.get_frame()
 
     def run (self):
         while True:
