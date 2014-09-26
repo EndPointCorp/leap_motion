@@ -33,9 +33,10 @@ class LeapInterface(Leap.Listener):
     def on_init(self, controller):
         # These variables as probably not thread safe
         # TODO: Make thread safe ;)
+        self.right_hand     = None
+        self.left_hand      = None
+        self.frame          = None
         self.hand           = [0,0,0]
-        self.right_hand = False
-        self.left_hand = False
         self.hand_direction = [0,0,0]
         self.hand_normal    = [0,0,0]
         self.hand_palm_pos  = [0,0,0]
@@ -63,34 +64,36 @@ class LeapInterface(Leap.Listener):
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
         frame = controller.frame()
+        self.frame = frame
 
+        '''
         print "Frame id: %d, timestamp: %d, hands: %d, fingers: %d, tools: %d, gestures: %d" % (
-              frame.id, frame.timestamp, len(frame.hands), len(frame.fingers), len(frame.tools), len(frame.gestures()))
+            frame.id, frame.timestamp, len(frame.hands), len(frame.fingers), len(frame.tools), len(frame.gestures()))
+        '''
 
         if not frame.hands.is_empty: #recently changed in API
             # Get the first hand
-            
-            
+
+
             #we are seeking one left and one right hands
             there_is_right_hand=False
             there_is_left_hand=False
-            
+
             for hand in frame.hands:
-            
+
                 if hand.is_right:
                     there_is_right_hand=True
                     self.right_hand=hand
                 elif hand.is_left:
                     there_is_left_hand=True
-                    
                     self.left_hand=hand
-            
+
             if not there_is_right_hand:
                 self.right_hand=False
-            
+
             if not there_is_left_hand:
                 self.left_hand=False
-                        
+
             self.hand = frame.hands[0] #old way
 
             # Check if the hand has any fingers
@@ -167,7 +170,7 @@ class LeapInterface(Leap.Listener):
                             gesture.id, self.state_string(gesture.state),
                             screentap.position, screentap.direction )
 
-        if not (frame.hands.empty and frame.gestures().empty):
+        if not (empty and frame.gestures().empty):
             print ""
 
     def state_string(self, state):
@@ -202,6 +205,12 @@ class LeapInterface(Leap.Listener):
     def get_hand_roll(self):
         return self.hand_roll
 
+    def get_hand(self):
+        return self.hand
+
+    def get_frame(self):
+        return self.frame
+
 
 class Runner(threading.Thread):
 
@@ -211,7 +220,7 @@ class Runner(threading.Thread):
         self.listener = LeapInterface()
         self.controller = Leap.Controller()
         self.controller.add_listener(self.listener)
-    
+
     def __del__(self):
         self.controller.remove_listener(self.listener)
 
@@ -232,6 +241,12 @@ class Runner(threading.Thread):
 
     def get_hand_yaw(self):
         return self.listener.get_hand_yaw()
+
+    def get_hand(self):
+        return self.listener.get_hand()
+
+    def get_frame(self):
+        return self.listener.get_frame()
 
     def run (self):
         while True:
