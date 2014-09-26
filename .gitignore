@@ -1,2 +1,5 @@
 *.pyc
+obj-x86_64-linux-gnu
 
+debian/files
+debian/ros-indigo*

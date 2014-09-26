@@ -8,9 +8,9 @@ add_message_files(
     leap.msg
     leapros.msg
     Frame.msg
+    Hand.msg
     InteractionBox.msg
     Pointable.msg
-    Hand.msg
     Vector.msg
 )
 
@@ -34,4 +34,9 @@ include_directories(include
 install(PROGRAMS
   scripts/leap_interface.py scripts/sender.py scripts/subscriber.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(
+  FILES scripts/Leap.py lib/LeapPython.so lib/libLeap.so
+  DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )

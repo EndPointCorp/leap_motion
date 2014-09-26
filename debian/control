@@ -1,0 +1,12 @@
+Source: ros-indigo-leap-motion
+Section: misc
+Priority: extra
+Maintainer: End Point Corp. LG R&D <lg-rad@endpoint.com>
+Build-Depends: debhelper (>= 9.0.0), ros-indigo-catkin, ros-indigo-geometry-msgs, ros-indigo-roscpp, ros-indigo-rospy, ros-indigo-message-generation, ros-indigo-std-msgs
+Homepage: http://www.ros.org/wiki/leap_motion
+Standards-Version: 3.9.2
+
+Package: ros-indigo-leap-motion
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-indigo-geometry-msgs, ros-indigo-roscpp, ros-indigo-rospy, ros-indigo-sensor-msgs, leap
+Description: ROS interface to the Leap Motion gesture device.
