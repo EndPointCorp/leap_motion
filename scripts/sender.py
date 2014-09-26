@@ -10,7 +10,7 @@ def sender():
     li = leap_interface.Runner()
     li.setDaemon(True)
     li.start()
-    pub_ros   = rospy.Publisher('leap_motion/frame',Frame)
+    pub_ros   = rospy.Publisher('leap_motion/frame',Frame,queue_size=66)
     rospy.init_node('leap_pub')
 
     while not rospy.is_shutdown():
