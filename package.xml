@@ -27,7 +27,7 @@
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>
   <run_depend>geometry_msgs</run_depend>
-  <run_depend>leap</run_depend>
+  <!-- <run_depend>leap</run_depend> -->
 
   <export>
   </export>
