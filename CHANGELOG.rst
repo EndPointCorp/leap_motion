@@ -2,7 +2,7 @@
 Changelog for package leap_motion
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1.0.0 (2014-09-25)
+0.0.4 (2014-09-25)
 -------------------
 * initial pacakge creation
 
